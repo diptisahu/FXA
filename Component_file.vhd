@@ -1,0 +1,95 @@
+library std;
+use std.standard.all;
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+package Microprocessor_project is
+    type arr1 is array(natural range <>) of std_logic_vector(15 downto 0);
+
+    --ALU for add, nand
+    component ALU is
+        port(
+            IP1, IP2 : in std_logic_vector(15 downto 0);
+            OP : out std_logic_vector(15 downto 0);
+            aluOP : in std_logic;
+	    C,Z : out std_logic);
+    end component;
+    
+    --Memory for data
+    component dataMemory is
+        port(
+            A,B,Din1,Din2 : in std_logic_vector(15 downto 0);
+            Dout1,Dout2 : out std_logic_vector(15 downto 0);
+            memWR1,memWR2 : in std_logic;
+            clk : in std_logic);
+    end component;
+
+    --Memory for instruction
+    component instrMemory is
+        port(
+            A,B : in std_logic_vector(15 downto 0);
+	    Dout1,Dout2 : out std_logic_vector(15 downto 0);
+	    memWR : in std_logic;
+	    clk : in std_logic);
+    end component;
+    
+    --Generic register
+    component dataRegister is
+        generic (data_width:integer);
+        port(
+            Din : in std_logic_vector(data_width-1 downto 0);
+            Dout : out std_logic_vector(data_width-1 downto 0);
+            clk, enable : in std_logic);
+    end component;
+
+    --Register File
+    component regFile is
+        port(
+	a1, a2, a3, a4, a5, a6, a7 : in std_logic_vector(2 downto 0);
+        d5, d6, d7, pci : in std_logic_vector(15 downto 0);
+        d1, d2, d3, d4 : out std_logic_vector(15 downto 0);
+        regWr1, regWr2, regWr3, pcWr : in std_logic;
+        clk, reset : in std_logic);
+    end component;
+
+    --Comparator
+    component Comparator is
+        port(
+		    Comp_D1,Comp_D2: in std_logic_vector(15 downto 0);
+			Comp_out: out std_logic);
+    end component;
+
+    --sign extender 6 to 16
+    component sign_extender_6to16 is
+    	port(
+	    x: in std_logic_vector(5 downto 0);
+	    y: out std_logic_vector( 15 downto 0)
+    	);
+    end component;
+
+    --sign extender 9 to 16
+    component sign_extender_9to16 is
+        port(
+	    x: in std_logic_vector(8 downto 0);
+	    y: out std_logic_vector( 15 downto 0)
+        );
+    end component;
+
+    component InstructionDecoder is
+	port(	
+	instr1, instr2: in std_logic_vector(15 downto 0);
+	m_dec_reg1: in std_logic_vector(2 downto 0);
+	rs11,rs12,rd1: out std_logic_vector(2 downto 0);
+	branch1, decode_br_loc1, regread_br_loc1: out std_logic;
+	branch1_state: out std_logic_vector (1 downto 0);
+	mem_read1, mem_write1, rf_write1: out std_logic;
+	m_dec_reg2: in std_logic_vector(2 downto 0);
+	rs21,rs22,rd2: out std_logic_vector(2 downto 0);
+	branch2, decode_br_loc2, regread_br_loc2: out std_logic;
+	branch2_state: out std_logic_vector (1 downto 0);
+	mem_read2, mem_write2, rf_write2: out std_logic;
+	stall: out std_logic);
+    end component;
+
+end package;
