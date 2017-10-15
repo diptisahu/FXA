@@ -1,67 +1,70 @@
+--Six Bit Sign Extender
 library ieee;
 use ieee.std_logic_1164.all;
+library work;
+use work.Microprocessor_project.all;
 
+entity SixBitSignExtender is
+    port(x: in std_logic_vector (5 downto 0);
+        y: out std_logic_vector (15 downto 0));
+end entity;
 
-entity sign_extender_6to16 is
-port(
-	x: in std_logic_vector(5 downto 0);
-	y : out std_logic_vector( 15 downto 0)
-);
-end sign_extender_6to16;
-
-architecture Formula_SE_6to16 of sign_extender_6to16 is 
-
+architecture Struct of SixBitSignExtender is
+    signal m: std_logic;
 begin
+    m <= x(5);
+    y(5 downto 0) <= x(5 downto 0);
+    y(6) <= m;
+    y(7) <= m;
+    y(8) <= m;
+    y(9) <= m;
+    y(10) <= m;
+    y(11) <= m;
+    y(12) <= m;
+    y(13) <= m;
+    y(14) <= m;
+    y(15) <= m;
+end Struct;
 
-	y(0) <= x(0);
-	y(1) <= x(1);
-	y(2) <= x(2);
-	y(3) <= x(3);
-	y(4) <= x(4);
-	y(5) <= x(5);
-	y(6) <= x(5);
-	y(7) <= x(5);
-	y(8) <= x(5);
-	y(9) <= x(5);
-	y(10) <= x(5);
-	y(11) <= x(5);
-	y(12) <= x(5);
-	y(13) <= x(5);
-	y(14) <= x(5);
-	y(15) <= x(5);
-
-end Formula_SE_6to16;
-
-
+-------------------------------------------------------------------------------
+--Nine Bit Sign Extender
 library ieee;
 use ieee.std_logic_1164.all;
+library work;
+use work.Microprocessor_project.all;
 
-entity sign_extender_9to16 is
-port(
-	x: in std_logic_vector(8 downto 0);
-	y : out std_logic_vector( 15 downto 0)
-);
-end sign_extender_9to16;
+entity NineBitSignExtender is
+    port(x: in std_logic_vector (8 downto 0);
+        y: out std_logic_vector (15 downto 0));
+end entity;
 
-architecture Formula_SE_9to16 of sign_extender_9to16 is 
-
+architecture Struct of NineBitSignExtender is
+signal m: std_logic;
 begin
+m <= x(8);
+y(8 downto 0) <= x(8 downto 0);
+y(9) <= m;
+y(10) <= m;
+y(11) <= m;
+y(12) <= m;
+y(13) <= m;
+y(14) <= m;
+y(15) <= m;
+end Struct;
 
-	y(0) <= x(0);
-	y(1) <= x(1);
-	y(2) <= x(2);
-	y(3) <= x(3);
-	y(4) <= x(4);
-	y(5) <= x(5);
-	y(6) <= x(6);
-	y(7) <= x(7);
-	y(8) <= x(8);
-	y(9) <= x(8);
-	y(10) <= x(8);
-	y(11) <= x(8);
-	y(12) <= x(8);
-	y(13) <= x(8);
-	y(14) <= x(8);
-	y(15) <= x(8);
+-------------------------------------------------------------------------------
+--Pad Nine
+library ieee;
+use ieee.std_logic_1164.all;
+library work;
+use work.Microprocessor_project.all;
 
-end Formula_SE_9to16;
+entity PadNine is
+    port(x: in std_logic_vector (8 downto 0);
+        y: out std_logic_vector (15 downto 0));
+end entity;
+
+architecture Struct of PadNine is
+begin
+y <= x & "0000000";
+end Struct;

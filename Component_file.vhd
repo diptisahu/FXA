@@ -53,6 +53,16 @@ package Microprocessor_project is
         clk, reset : in std_logic);
     end component;
 
+    component regRenameFile is
+    port(
+        a1, a2, a3, a4, a5, a6, a7 : in std_logic_vector(2 downto 0);
+        d5, d6, d7 : in std_logic_vector(15 downto 0);
+        d1, d2, d3, d4 : out std_logic_vector(15 downto 0);
+        regWr1, regWr2, regWr3 : in std_logic;
+        bit1, bit2, bit3, bit4 : out std_logic;
+        clk, reset : in std_logic);
+    end component;
+
     --Comparator
     component Comparator is
         port(
@@ -60,22 +70,25 @@ package Microprocessor_project is
 			Comp_out: out std_logic);
     end component;
 
-    --sign extender 6 to 16
-    component sign_extender_6to16 is
-    	port(
-	    x: in std_logic_vector(5 downto 0);
-	    y: out std_logic_vector( 15 downto 0)
-    	);
+    --Nine Bit Sign Extender
+    component NineBitSignExtender is
+        port(x: in std_logic_vector (8 downto 0);
+             y: out std_logic_vector (15 downto 0));
     end component;
 
-    --sign extender 9 to 16
-    component sign_extender_9to16 is
-        port(
-	    x: in std_logic_vector(8 downto 0);
-	    y: out std_logic_vector( 15 downto 0)
-        );
+    --Six Bit Sign Extender
+    component SixBitSignExtender is
+        port(x: in std_logic_vector (5 downto 0);
+             y: out std_logic_vector (15 downto 0));
     end component;
 
+    --Pad Nine Bit
+    component PadNine is
+    	port(x: in std_logic_vector (8 downto 0);
+             y: out std_logic_vector (15 downto 0));
+    end component;
+
+    --Instruction Decoder
     component InstructionDecoder is
 	port(	
 	instr1, instr2: in std_logic_vector(15 downto 0);
@@ -90,6 +103,33 @@ package Microprocessor_project is
 	branch2_state: out std_logic_vector (1 downto 0);
 	mem_read2, mem_write2, rf_write2: out std_logic;
 	stall: out std_logic);
+    end component;
+
+    --Instruction Queue
+    component InstructionQueue is
+	port(
+	instr1_in, instr2_in : in std_logic_vector(100 downto 0);
+	instr1_out, instr2_out : out std_logic_vector(100 downto 0);
+	clk, reset : in std_logic);
+    end component;
+
+    --ROB
+    component ROB is
+	port(
+	rob_in1, rob_in2 : in std_logic_vector(100 downto 0);
+	data1, data2, data3, pci : out std_logic_vector(15 downto 0);
+	add1, add2, add3 : out std_logic_vector(2 downto 0);
+	regWr1, regWr2, regWr3 : out std_logic;
+	clk, reset : in std_logic);
+    end component;
+
+    --Look Table
+    component LookTable is
+    	port(
+    	    pc_in1, pc_in2 : in std_logic_vector(15 downto 0);
+	    pc_out1, pc_out2, pc_out3, pc_out4 : out std_logic_vector(15 downto 0);
+	    retire1, retire2, retire3, retire4 : in std_logic;
+	    clk, reset : in std_logic);
     end component;
 
 end package;
